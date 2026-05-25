@@ -1,0 +1,276 @@
+aid: atomic-financial
+name: Atomic
+url: https://raw.githubusercontent.com/api-evangelist/atomic-financial/refs/heads/main/apis.yml
+image: https://atomic.financial/wp-content/uploads/2023/02/atomic-logo.svg
+description: >-
+  Atomic is the connected-banking infrastructure for income, payroll, and merchant data. Their user-permissioned APIs
+  let banks, lenders, fintechs, and HR platforms link consumers to thousands of payroll providers, gig platforms,
+  employers, and merchants — and then read or update that data in real time. Core use cases include direct-deposit
+  switching, paycheck-linked income and employment verification, tax-document retrieval, and card-on-file / subscription
+  management. Integration is done through the Transact SDK (web, iOS, Android, React Native, Flutter, Capacitor) plus a
+  REST API at api.atomicfi.com that manages access tokens, tasks, companies, deposit accounts, and webhooks. Atomic is
+  headquartered in Salt Lake City, Utah.
+created: '2026-05-25'
+modified: '2026-05-25'
+specificationVersion: '0.18'
+position: Consuming
+access: 3rd-Party
+tags:
+  - Income
+  - Payroll
+  - Direct Deposit
+  - Employment Verification
+  - Open Banking
+  - Financial
+  - Subscriptions
+  - Bill Pay
+apis:
+  - aid: atomic-financial:atomic-deposit-api
+    name: Atomic Deposit API
+    description: >-
+      Deposit (formerly Direct Deposit Switching) lets users redirect all or part of their paycheck to a new account.
+      Atomic connects to thousands of payroll providers and employers, signs in on the user's behalf with their consent,
+      and updates direct-deposit allocations — supporting total, fixed-amount, or percentage-based distributions.
+    humanURL: https://docs.atomicfi.com/reference/transact-sdk
+    baseURL: https://api.atomicfi.com
+    tags:
+      - Direct Deposit
+      - Paycheck
+      - Income
+      - Distribution
+    properties:
+      - url: https://docs.atomicfi.com/reference/transact-sdk
+        type: Documentation
+      - url: https://docs.atomicfi.com/reference/api
+        type: APIReference
+      - url: https://console.atomicfi.com/signup
+        type: SignUp
+  - aid: atomic-financial:atomic-verify-api
+    name: Atomic Verify API
+    description: >-
+      Verify provides instant income and employment verification by connecting to the consumer's payroll provider or
+      employer. Lenders, landlords, and fintechs use it to retrieve verified pay statements, gross/net income, employer
+      identity, and employment status without faxed pay stubs.
+    humanURL: https://docs.atomicfi.com/reference/transact-sdk
+    baseURL: https://api.atomicfi.com
+    tags:
+      - Employment Verification
+      - Income Verification
+      - Underwriting
+      - KYC
+    properties:
+      - url: https://docs.atomicfi.com/reference/transact-sdk
+        type: Documentation
+      - url: https://docs.atomicfi.com/reference/api
+        type: APIReference
+  - aid: atomic-financial:atomic-paylink-api
+    name: Atomic PayLink API
+    description: >-
+      PayLink lets consumers update their card-on-file across merchants and subscription services. It is also the
+      foundation for subscription discovery, bill management, and Atomic's Manage / Switch product line — enabling
+      pause, cancel, reactivate, and card-update flows across thousands of merchants.
+    humanURL: https://docs.atomicfi.com/reference/transact-sdk
+    baseURL: https://api.atomicfi.com
+    tags:
+      - PayLink
+      - Subscriptions
+      - Card On File
+      - Bill Pay
+      - Merchants
+    properties:
+      - url: https://docs.atomicfi.com/reference/transact-sdk
+        type: Documentation
+      - url: https://docs.atomicfi.com/reference/api
+        type: APIReference
+  - aid: atomic-financial:atomic-tax-api
+    name: Atomic Tax API
+    description: >-
+      Tax retrieves W-2s, 1099s, and other tax documents directly from the user's payroll provider, and unlocks
+      tax-refund use cases such as early-deposit and refund-advance products for banks and credit unions.
+    humanURL: https://docs.atomicfi.com/reference/transact-sdk
+    baseURL: https://api.atomicfi.com
+    tags:
+      - Taxes
+      - W-2
+      - 1099
+      - Documents
+    properties:
+      - url: https://docs.atomicfi.com/reference/transact-sdk
+        type: Documentation
+      - url: https://docs.atomicfi.com/reference/api
+        type: APIReference
+  - aid: atomic-financial:atomic-authentication-api
+    name: Atomic Authentication API
+    description: >-
+      Atomic's authentication layer powers user-permissioned access to third-party payroll, employer, and merchant
+      systems. Three flavors are supported - StandardAuth (credential / 2FA proxy), TrueAuth (deviceless, fully
+      automated), and CoAuth (assisted authentication for hard-to-reach systems).
+    humanURL: https://docs.atomicfi.com/reference/api
+    baseURL: https://api.atomicfi.com
+    tags:
+      - Authentication
+      - StandardAuth
+      - TrueAuth
+      - CoAuth
+      - OAuth
+    properties:
+      - url: https://docs.atomicfi.com/reference/api
+        type: APIReference
+      - url: https://docs.atomicfi.com/reference/transact-sdk
+        type: Documentation
+  - aid: atomic-financial:atomic-webhooks-api
+    name: Atomic Webhooks API
+    description: >-
+      Atomic delivers task, company, and continuous-access events to your endpoint using the CloudEvents binary content
+      mode. Events include task-status-updated, task-workflow-finished, payroll-data-fetched, deposit-accounts-synced,
+      employment-updated, income-updated, statements-added, timesheets-added, taxes-added, and linked-account
+      connected/disconnected.
+    humanURL: https://docs.atomicfi.com/reference/webhooks
+    baseURL: https://api.atomicfi.com
+    tags:
+      - Webhooks
+      - Events
+      - CloudEvents
+      - Notifications
+    properties:
+      - url: https://docs.atomicfi.com/reference/webhooks
+        type: Documentation
+      - url: https://docs.atomicfi.com/reference/api
+        type: APIReference
+  - aid: atomic-financial:atomic-transact-sdk
+    name: Atomic Transact SDK
+    description: >-
+      The Transact SDK is the user-facing client that drives every Atomic flow — authentication, account selection,
+      consent, and task execution. It ships as an embeddable web component plus native libraries for iOS, Android,
+      React Native, Flutter, and Capacitor. Configuration is task-based (operation = deposit | verify | identify | tax
+      | auth) with theming, language, deeplink, search-rules, and metadata hooks.
+    humanURL: https://docs.atomicfi.com/reference/transact-sdk
+    tags:
+      - SDK
+      - JavaScript
+      - iOS
+      - Android
+      - React Native
+      - Flutter
+      - Capacitor
+    properties:
+      - url: https://docs.atomicfi.com/reference/transact-sdk
+        type: Documentation
+      - url: https://github.com/atomicfi/atomic-transact-javascript
+        type: SDK
+      - url: https://github.com/atomicfi/atomic-transact-ios
+        type: SDK
+      - url: https://github.com/atomicfi/atomic-transact-android-public
+        type: SDK
+      - url: https://github.com/atomicfi/atomic-transact-react-native
+        type: SDK
+      - url: https://github.com/atomicfi/atomic-transact-flutter
+        type: SDK
+      - url: https://github.com/atomicfi/atomic-transact-capacitor
+        type: SDK
+common:
+  - type: Website
+    url: https://atomic.financial/
+  - type: Documentation
+    url: https://docs.atomicfi.com/
+  - type: APIReference
+    url: https://docs.atomicfi.com/reference/api
+  - type: Portal
+    url: https://console.atomicfi.com/
+  - type: SignUp
+    url: https://console.atomicfi.com/signup
+  - type: Login
+    url: https://console.atomicfi.com/
+  - type: GitHubOrganization
+    url: https://github.com/atomicfi
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/atomic-fi/
+  - type: YouTube
+    url: https://www.youtube.com/@atomic.financial
+  - type: Support
+    url: https://atomic.financial/help-center/
+  - type: Blog
+    url: https://atomic.financial/insights/
+  - type: Webhooks
+    url: https://docs.atomicfi.com/reference/webhooks
+  - type: Authentication
+    url: https://docs.atomicfi.com/reference/api
+  - type: Sandbox
+    url: https://docs.atomicfi.com/reference/api
+  - type: Features
+    data:
+      - name: Deposit (Direct Deposit Switching)
+        description: Reroute all or part of a user's paycheck to a new account at thousands of payroll providers, with total, fixed-amount, or percentage allocations.
+      - name: Verify (Income & Employment)
+        description: Instant payroll-sourced income and employment verification for lenders, landlords, and fintechs.
+      - name: PayLink
+        description: User-permissioned card-on-file updating across merchants and subscription services.
+      - name: Manage
+        description: AI-assisted subscription and recurring-bill management with pause / cancel / reactivate.
+      - name: Switch
+        description: Bulk payment-method updates and card switching across merchants.
+      - name: Tax
+        description: W-2 and 1099 document retrieval direct from payroll providers; powers refund-advance products.
+      - name: Authentication suite
+        description: StandardAuth (credential / 2FA), TrueAuth (deviceless, fully automated), and CoAuth (assisted) auth modes.
+      - name: Transact SDK
+        description: Embeddable web component plus native libraries for iOS, Android, React Native, Flutter, and Capacitor.
+      - name: Continuous Access
+        description: Long-lived linked-account connections that emit webhooks when payroll, deposit accounts, statements, timesheets, or taxes change.
+      - name: CloudEvents webhooks
+        description: Task, company, and data-sync events delivered using CloudEvents binary content mode.
+      - name: Console
+        description: Web dashboard for API keys, webhook endpoints, secrets, and task monitoring.
+    sources:
+      - https://atomic.financial/
+      - https://docs.atomicfi.com/reference/api
+      - https://docs.atomicfi.com/reference/webhooks
+      - https://docs.atomicfi.com/reference/transact-sdk
+    updated: '2026-05-25'
+  - type: UseCases
+    data:
+      - name: Primacy / Direct-Deposit Capture
+        description: Banks and credit unions use Deposit to move new account holders' paychecks into their institution.
+      - name: Lending Income & Employment Verification
+        description: Lenders verify applicant pay and employer identity instantly during underwriting.
+      - name: Tax-Refund Advance
+        description: Issuers retrieve W-2 / 1099 data to power early-refund and refund-advance products.
+      - name: Subscription Discovery & Management
+        description: Issuers, neobanks, and PFM apps surface and manage recurring subscriptions and bills.
+      - name: Card-on-File Switching
+        description: Issuers move card-on-file across merchants when a customer gets a new card.
+      - name: Gig / 1099 Income Streams
+        description: Lenders and PFM apps pull gig-platform pay history for underwriting and budgeting.
+  - type: Integrations
+    data:
+      - name: Mastercard
+        description: Strategic partnership for card-switching and subscription management at scale.
+      - name: Experian
+        description: Identity and credit-bureau ecosystem integration.
+      - name: MX
+        description: Open-banking and data-aggregation partnership.
+      - name: Jack Henry
+        description: Core-banking distribution to community banks and credit unions.
+      - name: Galileo
+        description: Card-issuing platform integration.
+      - name: MoneyLion
+        description: Consumer-finance platform integration.
+      - name: Frost Bank
+        description: Direct-deposit-switching customer.
+  - type: Solutions
+    data:
+      - name: Banks & Credit Unions
+        description: Win primacy through direct-deposit capture, retain through subscription management, and advance through tax refunds.
+      - name: Lenders
+        description: Underwrite with payroll-sourced income, employment, and tax data.
+      - name: HR & Earned-Wage-Access
+        description: Connect to payroll for employment status, pay history, and timesheet data.
+      - name: Fintech & Neobank
+        description: Subscription discovery, bill optimization, and direct-deposit setup as embedded features.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+  - FN: APIs.json
+    email: info@apis.io
+  - name: Atomic
+    url: https://atomic.financial/

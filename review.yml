@@ -1,0 +1,42 @@
+aid: atomic-financial
+name: Atomic
+url: https://raw.githubusercontent.com/api-evangelist/atomic-financial/refs/heads/main/review.yml
+created: '2026-05-25'
+modified: '2026-05-25'
+reviewer:
+  FN: Kin Lane
+  email: kin@apievangelist.com
+  org: API Evangelist
+tier: 1
+summary: >-
+  Atomic is a tier-1 connected-banking provider focused on income, payroll, and merchant data. It pairs a clean REST
+  API at api.atomicfi.com with a broad multi-platform Transact SDK (web, iOS, Android, React Native, Flutter,
+  Capacitor) and CloudEvents-style webhooks. Product surface (Deposit, Verify, PayLink, Tax, Manage, Switch, Authentication)
+  is cleanly separated and well-documented at docs.atomicfi.com.
+strengths:
+  - Multi-platform Transact SDK with public GitHub repos for all six client surfaces.
+  - REST API uses simple header-based auth and CloudEvents-formatted webhooks.
+  - Three explicit authentication models (StandardAuth, TrueAuth, CoAuth) cover credentialed, automated, and assisted flows.
+  - Continuous-access event model (payroll-data-fetched, deposit-accounts-synced, employment-updated, income-updated, etc.) supports long-lived integrations rather than one-shot pulls.
+  - Strong partner / customer roster (Mastercard, Experian, MX, Jack Henry, Galileo, Frost Bank, MoneyLion).
+gaps:
+  - No public OpenAPI specification is published at docs.atomicfi.com or in the atomicfi GitHub org.
+  - No public pricing page; pricing is sales-led.
+  - No public status page at status.atomicfi.com (resolves to nothing).
+  - No public changelog URL discovered during this review; release notes appear to be gated behind the console.
+  - Webhook signature-verification procedure is not clearly documented in the public reference.
+recommendations:
+  - Publish a versioned OpenAPI 3.x spec covering /access-token, /company, /task, /employment, /income, /identity, /deposit-accounts, /webhooks/endpoints, and /secrets.
+  - Stand up a public status page and public changelog to match peer-tier providers (Plaid, Finicity, MX).
+  - Document HMAC or CloudEvents webhook signature verification in the public reference.
+ratings:
+  documentation: 4
+  openapi: 2
+  sdk: 5
+  webhooks: 4
+  authentication: 4
+  developer-experience: 4
+  pricing-transparency: 2
+  changelog: 2
+  status-page: 1
+  overall: 4
