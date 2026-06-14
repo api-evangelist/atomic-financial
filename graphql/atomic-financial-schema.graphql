@@ -1,0 +1,773 @@
+"""
+Atomic Financial GraphQL Schema
+Conceptual schema for Atomic's payroll connectivity, direct deposit switching,
+income/employment verification, tax retrieval, and merchant card-on-file APIs.
+Base REST API: https://api.atomicfi.com
+Documentation: https://docs.atomicfi.com/reference/api
+"""
+
+# ─── Scalars ────────────────────────────────────────────────────────────────
+
+scalar DateTime
+scalar JSON
+scalar UUID
+scalar Currency
+
+# ─── Enums ──────────────────────────────────────────────────────────────────
+
+enum TaskType {
+  DEPOSIT
+  VERIFY
+  IDENTIFY
+  TAX
+  AUTH
+  PAYLINK
+  MANAGE
+  SWITCH
+}
+
+enum TaskStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  ABANDONED
+  EXPIRED
+}
+
+enum AccountType {
+  CHECKING
+  SAVINGS
+  MONEY_MARKET
+  PREPAID
+}
+
+enum AllocationAmount {
+  FIXED
+  PERCENT
+  REMAINDER
+}
+
+enum ProviderType {
+  PAYROLL
+  EMPLOYER
+  GIG_PLATFORM
+  MERCHANT
+  BENEFITS
+  HR_SYSTEM
+}
+
+enum EmploymentStatus {
+  ACTIVE
+  INACTIVE
+  TERMINATED
+  LEAVE_OF_ABSENCE
+  PART_TIME
+  CONTRACTOR
+}
+
+enum IncomeType {
+  SALARY
+  HOURLY
+  COMMISSION
+  BONUS
+  GIG
+  CONTRACTOR_1099
+  OTHER
+}
+
+enum PayPeriodFrequency {
+  WEEKLY
+  BIWEEKLY
+  SEMIMONTHLY
+  MONTHLY
+  DAILY
+  IRREGULAR
+}
+
+enum DistributionType {
+  FIXED_AMOUNT
+  PERCENTAGE
+  REMAINDER
+}
+
+enum AuthMethod {
+  STANDARD_AUTH
+  TRUE_AUTH
+  CO_AUTH
+}
+
+enum WebhookEventType {
+  TASK_STATUS_UPDATED
+  TASK_WORKFLOW_FINISHED
+  PAYROLL_DATA_FETCHED
+  DEPOSIT_ACCOUNTS_SYNCED
+  EMPLOYMENT_UPDATED
+  INCOME_UPDATED
+  STATEMENTS_ADDED
+  TIMESHEETS_ADDED
+  TAXES_ADDED
+  LINKED_ACCOUNT_CONNECTED
+  LINKED_ACCOUNT_DISCONNECTED
+}
+
+enum DeductionType {
+  HEALTH_INSURANCE
+  DENTAL
+  VISION
+  RETIREMENT_401K
+  RETIREMENT_ROTH
+  FSA
+  HSA
+  LIFE_INSURANCE
+  DISABILITY
+  GARNISHMENT
+  UNION_DUES
+  OTHER
+}
+
+enum EarningType {
+  REGULAR
+  OVERTIME
+  HOLIDAY
+  VACATION
+  SICK
+  BONUS
+  COMMISSION
+  TIPS
+  OTHER
+}
+
+enum TaxFilingStatus {
+  SINGLE
+  MARRIED_FILING_JOINTLY
+  MARRIED_FILING_SEPARATELY
+  HEAD_OF_HOUSEHOLD
+  QUALIFYING_WIDOW
+}
+
+# ─── Core Types ─────────────────────────────────────────────────────────────
+
+type Task {
+  id: UUID!
+  type: TaskType!
+  status: TaskStatus!
+  details: TaskDetails
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  completedAt: DateTime
+  expiresAt: DateTime
+  metadata: JSON
+}
+
+type TaskDetails {
+  taskId: UUID!
+  operation: TaskType!
+  product: String
+  deeplink: String
+  language: String
+  searchQuery: String
+  distribution: [DistributionDetails]
+  depositAccount: DepositAccount
+  additionalSearchResults: Boolean
+}
+
+type DirectDeposit {
+  id: UUID!
+  taskId: UUID!
+  details: DirectDepositDetails
+  status: TaskStatus!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type DirectDepositDetails {
+  depositId: UUID!
+  account: DepositAccount!
+  allocations: [DepositAllocation!]
+  providerDetails: ProviderDetails
+  employeeDetails: EmployeeDetails
+  switchDetails: SwitchDetails
+}
+
+type DepositAllocation {
+  id: UUID!
+  account: DepositAccount!
+  amount: AllocationAmount!
+  distributionType: DistributionType!
+  value: Float
+  currency: Currency
+  isRemainder: Boolean!
+}
+
+type DepositAccount {
+  id: UUID!
+  details: AccountDetails!
+  type: AccountType!
+  nickname: String
+  bankName: String
+  isVerified: Boolean!
+  createdAt: DateTime!
+}
+
+type AccountDetails {
+  accountId: UUID!
+  accountNumber: AccountNumber!
+  routingNumber: RoutingNumber!
+  accountType: AccountType!
+  bankName: String
+  ownerName: String
+}
+
+type AccountNumber {
+  last4: String!
+  full: String
+  isEncrypted: Boolean!
+}
+
+type RoutingNumber {
+  number: String!
+  bankName: String
+  isValid: Boolean!
+}
+
+type Payroll {
+  id: UUID!
+  provider: PayrollProvider!
+  details: PayrollDetails
+  connectedAt: DateTime!
+  lastSyncedAt: DateTime
+  employee: Employee
+}
+
+type PayrollDetails {
+  payrollId: UUID!
+  providerId: UUID!
+  providerName: String!
+  employeeId: String
+  startDate: DateTime
+  endDate: DateTime
+  payPeriod: PayPeriod
+  statements: [PayStatement]
+}
+
+type PayrollProvider {
+  id: UUID!
+  name: String!
+  type: ProviderType!
+  details: ProviderDetails!
+  capabilities: [ProviderCapability!]!
+  logoUrl: String
+  isActive: Boolean!
+}
+
+type ProviderDetails {
+  providerId: UUID!
+  providerName: String!
+  providerType: ProviderType!
+  authMethod: AuthMethod!
+  loginUrl: String
+  supportedFeatures: [String!]
+  connectorVersion: String
+}
+
+type ProviderCapability {
+  name: String!
+  isSupported: Boolean!
+  version: String
+  description: String
+}
+
+type Employee {
+  id: UUID!
+  details: EmployeeDetails!
+  employmentStatus: EmploymentStatus!
+  employer: PayrollProvider
+  income: Income
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type EmployeeDetails {
+  employeeId: UUID!
+  firstName: String!
+  lastName: String!
+  email: String
+  phone: String
+  dateOfBirth: DateTime
+  ssn: String
+  address: WorkLocation
+  startDate: DateTime
+  terminationDate: DateTime
+}
+
+type EmploymentDetails {
+  employeeId: UUID!
+  employerId: UUID!
+  employerName: String!
+  jobTitle: String
+  department: String
+  employmentStatus: EmploymentStatus!
+  startDate: DateTime!
+  terminationDate: DateTime
+  isCurrent: Boolean!
+  workLocation: WorkLocation
+  managerName: String
+}
+
+type Income {
+  id: UUID!
+  details: IncomeDetails!
+  type: IncomeType!
+  payPeriod: PayPeriod
+  annualAmount: Float
+  currency: Currency!
+  updatedAt: DateTime!
+}
+
+type IncomeDetails {
+  incomeId: UUID!
+  grossPay: Float!
+  netPay: Float!
+  currency: Currency!
+  incomeType: IncomeType!
+  payFrequency: PayPeriodFrequency!
+  hourlyRate: Float
+  annualSalary: Float
+  hoursPerWeek: Float
+}
+
+type PayPeriod {
+  id: UUID!
+  frequency: PayPeriodFrequency!
+  startDate: DateTime!
+  endDate: DateTime!
+  payDate: DateTime!
+  periodNumber: Int
+}
+
+type PayStatement {
+  id: UUID!
+  details: PayStatementDetails!
+  payPeriod: PayPeriod!
+  employee: Employee!
+  employer: PayrollProvider!
+  createdAt: DateTime!
+}
+
+type PayStatementDetails {
+  statementId: UUID!
+  grossEarnings: Float!
+  netPay: Float!
+  currency: Currency!
+  earnings: [EarningDetails!]
+  deductions: [DeductionDetails!]
+  taxes: [TaxDetails!]
+  ytdGross: Float
+  ytdNet: Float
+}
+
+type Earnings {
+  total: Float!
+  currency: Currency!
+  items: [EarningDetails!]!
+  ytd: Float
+}
+
+type EarningDetails {
+  type: EarningType!
+  description: String!
+  hours: Float
+  rate: Float
+  amount: Float!
+  currency: Currency!
+  ytdAmount: Float
+}
+
+type Deductions {
+  total: Float!
+  currency: Currency!
+  items: [DeductionDetails!]!
+  ytd: Float
+}
+
+type DeductionDetails {
+  type: DeductionType!
+  description: String!
+  amount: Float!
+  currency: Currency!
+  isPreTax: Boolean!
+  ytdAmount: Float
+  employerContribution: Float
+}
+
+type Benefits {
+  id: UUID!
+  employeeId: UUID!
+  items: [BenefitItem!]!
+  effectiveDate: DateTime
+  provider: PayrollProvider
+}
+
+type BenefitItem {
+  name: String!
+  type: DeductionType!
+  employeeContribution: Float!
+  employerContribution: Float!
+  currency: Currency!
+  coverageLevel: String
+  isActive: Boolean!
+}
+
+type TaxDetails {
+  federal: FederalTax
+  state: [StateTax!]
+  local: [LocalTax!]
+  ytdFederal: Float
+  ytdState: Float
+  ytdLocal: Float
+}
+
+type FederalTax {
+  withheld: Float!
+  currency: Currency!
+  filingStatus: TaxFilingStatus
+  allowances: Int
+  additionalWithholding: Float
+  ytdWithheld: Float
+}
+
+type StateTax {
+  state: String!
+  withheld: Float!
+  currency: Currency!
+  filingStatus: TaxFilingStatus
+  allowances: Int
+  ytdWithheld: Float
+}
+
+type LocalTax {
+  locality: String!
+  withheld: Float!
+  currency: Currency!
+  ytdWithheld: Float
+}
+
+type TaxWithholding {
+  id: UUID!
+  employeeId: UUID!
+  year: Int!
+  filingStatus: TaxFilingStatus!
+  federalAllowances: Int
+  stateAllowances: Int
+  additionalFederalWithholding: Float
+  additionalStateWithholding: Float
+  updatedAt: DateTime!
+}
+
+type Authentication {
+  id: UUID!
+  method: AuthMethod!
+  details: AuthDetails!
+  session: SessionDetails
+  isActive: Boolean!
+  createdAt: DateTime!
+}
+
+type AuthDetails {
+  authId: UUID!
+  providerId: UUID!
+  method: AuthMethod!
+  mfaRequired: Boolean!
+  mfaType: String
+  loginUrl: String
+  status: String!
+}
+
+type SessionDetails {
+  sessionId: UUID!
+  accessToken: AccessToken!
+  expiresAt: DateTime!
+  scopes: [String!]!
+  isActive: Boolean!
+}
+
+type AccessToken {
+  token: String!
+  expiresAt: DateTime!
+  tokenType: String!
+  scopes: [String!]!
+}
+
+type Distribution {
+  id: UUID!
+  taskId: UUID!
+  details: DistributionDetails!
+  accounts: [DepositAccount!]!
+  createdAt: DateTime!
+}
+
+type DistributionDetails {
+  distributionId: UUID!
+  type: DistributionType!
+  allocations: [DepositAllocation!]!
+  totalAmount: Float
+  currency: Currency!
+  effectiveDate: DateTime
+}
+
+type WorkLocation {
+  id: UUID!
+  street1: String
+  street2: String
+  city: String!
+  state: String!
+  postalCode: String!
+  country: String!
+  isRemote: Boolean!
+}
+
+type DirectDepositUpdate {
+  id: UUID!
+  taskId: UUID!
+  previousAccount: DepositAccount
+  newAccount: DepositAccount!
+  allocations: [DepositAllocation!]!
+  status: TaskStatus!
+  effectiveDate: DateTime
+  updatedAt: DateTime!
+}
+
+type SwitchDetails {
+  switchId: UUID!
+  fromAccount: DepositAccount
+  toAccount: DepositAccount!
+  allocationMethod: DistributionType!
+  allocationValue: Float
+  isPartialSwitch: Boolean!
+  effectiveDate: DateTime
+}
+
+type UserToken {
+  id: UUID!
+  publicKey: PublicKey!
+  token: String!
+  userId: String!
+  scopes: [String!]!
+  product: [TaskType!]!
+  expiresIn: Int!
+  createdAt: DateTime!
+}
+
+type PublicKey {
+  keyId: UUID!
+  publicKey: String!
+  algorithm: String!
+  expiresAt: DateTime
+}
+
+type Webhook {
+  id: UUID!
+  url: String!
+  events: [WebhookEventType!]!
+  isActive: Boolean!
+  secret: String
+  headers: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  lastDeliveredAt: DateTime
+}
+
+type WebhookEvent {
+  id: UUID!
+  webhookId: UUID!
+  type: WebhookEventType!
+  payload: JSON!
+  taskId: UUID
+  companyId: UUID
+  deliveredAt: DateTime
+  attempts: Int!
+  isSuccessful: Boolean!
+  createdAt: DateTime!
+}
+
+type APIKey {
+  id: UUID!
+  name: String!
+  prefix: String!
+  scopes: [String!]!
+  environment: String!
+  isActive: Boolean!
+  createdAt: DateTime!
+  lastUsedAt: DateTime
+  expiresAt: DateTime
+}
+
+type Token {
+  id: UUID!
+  value: String!
+  type: String!
+  scopes: [String!]!
+  expiresAt: DateTime!
+  createdAt: DateTime!
+  isRevoked: Boolean!
+}
+
+type Error {
+  code: String!
+  message: String!
+  field: String
+  details: JSON
+  timestamp: DateTime!
+}
+
+# ─── Query ──────────────────────────────────────────────────────────────────
+
+type Query {
+  task(id: UUID!): Task
+  tasks(
+    status: TaskStatus
+    type: TaskType
+    limit: Int
+    offset: Int
+  ): [Task!]!
+
+  directDeposit(id: UUID!): DirectDeposit
+  directDeposits(taskId: UUID, limit: Int, offset: Int): [DirectDeposit!]!
+
+  depositAccount(id: UUID!): DepositAccount
+  depositAccounts(employeeId: UUID, limit: Int, offset: Int): [DepositAccount!]!
+
+  payroll(id: UUID!): Payroll
+  payrolls(employeeId: UUID, providerId: UUID): [Payroll!]!
+
+  payrollProvider(id: UUID!): PayrollProvider
+  payrollProviders(type: ProviderType, search: String): [PayrollProvider!]!
+
+  employee(id: UUID!): Employee
+  employees(status: EmploymentStatus, limit: Int, offset: Int): [Employee!]!
+
+  income(id: UUID!): Income
+  incomes(employeeId: UUID!, type: IncomeType): [Income!]!
+
+  payStatement(id: UUID!): PayStatement
+  payStatements(
+    employeeId: UUID
+    startDate: DateTime
+    endDate: DateTime
+    limit: Int
+    offset: Int
+  ): [PayStatement!]!
+
+  taxDetails(employeeId: UUID!, year: Int!): TaxDetails
+  taxWithholding(employeeId: UUID!): TaxWithholding
+
+  authentication(id: UUID!): Authentication
+  session(id: UUID!): SessionDetails
+
+  distribution(id: UUID!): Distribution
+  distributions(taskId: UUID!): [Distribution!]!
+
+  webhook(id: UUID!): Webhook
+  webhooks(isActive: Boolean): [Webhook!]!
+
+  webhookEvent(id: UUID!): WebhookEvent
+  webhookEvents(
+    webhookId: UUID
+    type: WebhookEventType
+    limit: Int
+    offset: Int
+  ): [WebhookEvent!]!
+
+  apiKey(id: UUID!): APIKey
+  apiKeys(environment: String, isActive: Boolean): [APIKey!]!
+
+  userToken(id: UUID!): UserToken
+}
+
+# ─── Mutation ───────────────────────────────────────────────────────────────
+
+input CreateUserTokenInput {
+  userId: String!
+  product: [TaskType!]!
+  scopes: [String!]
+  metadata: JSON
+}
+
+input UpdateDirectDepositInput {
+  taskId: UUID!
+  accountId: UUID!
+  allocations: [AllocationInput!]!
+}
+
+input AllocationInput {
+  accountId: UUID!
+  distributionType: DistributionType!
+  value: Float
+  isRemainder: Boolean
+}
+
+input CreateDepositAccountInput {
+  routingNumber: String!
+  accountNumber: String!
+  accountType: AccountType!
+  bankName: String
+  nickname: String
+}
+
+input CreateWebhookInput {
+  url: String!
+  events: [WebhookEventType!]!
+  secret: String
+  headers: JSON
+}
+
+input UpdateWebhookInput {
+  id: UUID!
+  url: String
+  events: [WebhookEventType!]
+  isActive: Boolean
+  secret: String
+  headers: JSON
+}
+
+input CreateTaskInput {
+  type: TaskType!
+  product: [TaskType!]!
+  userId: String!
+  depositAccount: CreateDepositAccountInput
+  distribution: [AllocationInput!]
+  metadata: JSON
+  language: String
+}
+
+type Mutation {
+  createUserToken(input: CreateUserTokenInput!): UserToken!
+  createTask(input: CreateTaskInput!): Task!
+
+  updateDirectDeposit(input: UpdateDirectDepositInput!): DirectDeposit!
+  createDepositAccount(input: CreateDepositAccountInput!): DepositAccount!
+  deleteDepositAccount(id: UUID!): Boolean!
+
+  createWebhook(input: CreateWebhookInput!): Webhook!
+  updateWebhook(input: UpdateWebhookInput!): Webhook!
+  deleteWebhook(id: UUID!): Boolean!
+  testWebhook(id: UUID!): WebhookEvent!
+
+  createAPIKey(name: String!, scopes: [String!]!, environment: String!): APIKey!
+  revokeAPIKey(id: UUID!): Boolean!
+
+  revokeToken(id: UUID!): Boolean!
+  revokeSession(id: UUID!): Boolean!
+}
+
+# ─── Subscription ────────────────────────────────────────────────────────────
+
+type Subscription {
+  taskStatusUpdated(taskId: UUID!): Task!
+  webhookEventReceived(webhookId: UUID!): WebhookEvent!
+  depositAccountSynced(employeeId: UUID!): DepositAccount!
+  incomeUpdated(employeeId: UUID!): Income!
+  employmentUpdated(employeeId: UUID!): Employee!
+  payStatementAdded(employeeId: UUID!): PayStatement!
+}
