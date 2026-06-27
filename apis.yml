@@ -46,7 +46,7 @@ apis:
   - url: https://docs.atomicfi.com/reference/api
     type: APIReference
   - url: https://console.atomicfi.com/signup
-    type: SignUp
+    type: Signup
   - url: graphql/atomic-financial-graphql.md
     type: GraphQL
 - aid: atomic-financial:atomic-verify-api
@@ -162,17 +162,17 @@ apis:
   - url: https://docs.atomicfi.com/reference/transact-sdk
     type: Documentation
   - url: https://github.com/atomicfi/atomic-transact-javascript
-    type: SDK
+    type: SDKs
   - url: https://github.com/atomicfi/atomic-transact-ios
-    type: SDK
+    type: SDKs
   - url: https://github.com/atomicfi/atomic-transact-android-public
-    type: SDK
+    type: SDKs
   - url: https://github.com/atomicfi/atomic-transact-react-native
-    type: SDK
+    type: SDKs
   - url: https://github.com/atomicfi/atomic-transact-flutter
-    type: SDK
+    type: SDKs
   - url: https://github.com/atomicfi/atomic-transact-capacitor
-    type: SDK
+    type: SDKs
 common:
 - type: Website
   url: https://atomic.financial/
@@ -182,7 +182,7 @@ common:
   url: https://docs.atomicfi.com/reference/api
 - type: Portal
   url: https://console.atomicfi.com/
-- type: SignUp
+- type: Signup
   url: https://console.atomicfi.com/signup
 - type: Login
   url: https://console.atomicfi.com/
