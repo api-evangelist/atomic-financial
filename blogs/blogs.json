@@ -2,13 +2,14 @@
   "repo": "atomic-financial",
   "feeds": [
     {
-      "source": "https://atomic.financial/insights/",
-      "feed_url": "",
-      "saved": 3,
-      "method": "agent-scrape"
+      "source": "https://atomic.financial/help-center/",
+      "feed_url": "https://atomic.financial/help-center/",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
-  "post_count": 5,
-  "fetched": "2026-06-27T12:26:19Z",
+  "post_count": 6,
+  "fetched": "2026-07-11T11:50:51Z",
   "agent_pulled": "2026-06-27"
 }
