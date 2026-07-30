@@ -1,6 +1,17 @@
 aid: atomic-financial
 name: Atomic
 url: https://raw.githubusercontent.com/api-evangelist/atomic-financial/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
 image: https://atomic.financial/wp-content/uploads/2023/02/atomic-logo.svg
 description: Atomic is the connected-banking infrastructure for income, payroll, and
   merchant data. Their user-permissioned APIs let banks, lenders, fintechs, and HR
