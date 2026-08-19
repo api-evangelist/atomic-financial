@@ -24,7 +24,7 @@ description: Atomic is the connected-banking infrastructure for income, payroll,
   and webhooks. Atomic is headquartered in Salt Lake City, Utah.
 created: '2026-05-25'
 modified: '2026-05-25'
-specificationVersion: '0.18'
+specificationVersion: '0.23'
 position: Consuming
 access: 3rd-Party
 tags:
