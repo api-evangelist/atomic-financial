@@ -34,6 +34,15 @@ tags:
 - Employment Verification
 - Open Banking
 - Financial
+- Subscription
+- Bill Pay
+tags_raw:
+- Income
+- Payroll
+- Direct Deposit
+- Employment Verification
+- Open Banking
+- Financial
 - Subscriptions
 - Bill Pay
 apis:
@@ -88,6 +97,12 @@ apis:
   baseURL: https://api.atomicfi.com
   tags:
   - PayLink
+  - Subscription
+  - Card on File
+  - Bill Pay
+  - Merchants
+  tags_raw:
+  - PayLink
   - Subscriptions
   - Card On File
   - Bill Pay
@@ -127,6 +142,11 @@ apis:
   - StandardAuth
   - TrueAuth
   - CoAuth
+  tags_raw:
+  - Authentication
+  - StandardAuth
+  - TrueAuth
+  - CoAuth
   - OAuth
   properties:
   - url: https://docs.atomicfi.com/reference/api
@@ -143,6 +163,11 @@ apis:
   humanURL: https://docs.atomicfi.com/reference/webhooks
   baseURL: https://api.atomicfi.com
   tags:
+  - Webhook
+  - Event
+  - CloudEvents
+  - Notification
+  tags_raw:
   - Webhooks
   - Events
   - CloudEvents
