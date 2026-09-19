@@ -131,6 +131,11 @@ apis:
   humanURL: https://docs.atomicfi.com/reference/transact-sdk
   baseURL: https://api.atomicfi.com
   tags:
+  - Tax
+  - W-2
+  - 1099
+  - Documents
+  tags_raw:
   - Taxes
   - W-2
   - 1099
