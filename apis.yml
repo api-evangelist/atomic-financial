@@ -44,7 +44,7 @@ tags:
 - Direct Deposit
 - Employment Verification
 - Open Banking
-- Financial
+- Finance
 - Subscription
 - Bill Pay
 tags_raw:
@@ -78,8 +78,6 @@ apis:
     type: APIReference
   - url: https://console.atomicfi.com/signup
     type: Signup
-  - url: graphql/atomic-financial-graphql.md
-    type: GraphQL
 - aid: atomic-financial:atomic-verify-api
   name: Atomic Verify API
   description: Verify provides instant income and employment verification by connecting
