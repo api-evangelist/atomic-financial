@@ -64,53 +64,100 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-API Evangelist profile of [Atomic](https://atomic.financial/) — the connected-banking infrastructure for income, payroll, and merchant data.
+Atomic is the connected-banking infrastructure for income, payroll, and merchant data. Their user-permissioned APIs let banks, lenders, fintechs, and HR platforms link consumers to thousands of payroll providers, gig platforms, employers, and merchants — and then read or update that data in real time. Core use cases include direct-deposit switching, paycheck-linked income and employment verification, tax-document retrieval, and card-on-file / subscription management. Integration is done through the Transact SDK (web, iOS, Android, React Native, Flutter, Capacitor) plus a REST API at api.atomicfi.com that manages access tokens, tasks, companies, deposit accounts, and webhooks. Atomic is headquartered in Salt Lake City, Utah.
 
-Atomic's user-permissioned APIs link consumers to thousands of payroll providers, gig platforms, employers, and merchants, then read or update that data in real time. Core use cases include direct-deposit switching, paycheck-linked income and employment verification, tax-document retrieval, and card-on-file / subscription management.
+**Areas:** Income · Payroll · Direct Deposit · Employment Verification · Open Banking · Finance · Subscription · Bill Pay
 
-## APIs
+## Atomic on APIs.io
 
-| API | Description | Documentation |
-|---|---|---|
-| Atomic Deposit API | Direct-deposit switching across thousands of payroll providers. | [Docs](https://docs.atomicfi.com/reference/transact-sdk) |
-| Atomic Verify API | Instant income and employment verification. | [Docs](https://docs.atomicfi.com/reference/transact-sdk) |
-| Atomic PayLink API | Card-on-file updating and subscription management across merchants. | [Docs](https://docs.atomicfi.com/reference/transact-sdk) |
-| Atomic Tax API | W-2 / 1099 document retrieval and refund-advance enablement. | [Docs](https://docs.atomicfi.com/reference/transact-sdk) |
-| Atomic Authentication API | StandardAuth, TrueAuth, and CoAuth for permissioned third-party access. | [Docs](https://docs.atomicfi.com/reference/api) |
-| Atomic Webhooks API | CloudEvents-formatted task, company, and continuous-access events. | [Docs](https://docs.atomicfi.com/reference/webhooks) |
-| Atomic Transact SDK | Web, iOS, Android, React Native, Flutter, and Capacitor client SDKs. | [Docs](https://docs.atomicfi.com/reference/transact-sdk) |
+Everything profiled for Atomic is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/atomic-financial/](https://apis.io/providers/atomic-financial/)** — or go straight to one of the APIs or properties below.
 
-## Authentication
+### APIs (7)
 
-The REST API at `https://api.atomicfi.com` (sandbox: `https://sandbox-api.atomicfi.com`) supports two authentication modes:
+- [Atomic Deposit API](https://apis.io/apis/atomic-financial/atomic-deposit-api/) — Deposit (formerly Direct Deposit Switching) lets users redirect all or part of their paycheck to a new account. Atomic connects to thousands of payroll…
+- [Atomic Verify API](https://apis.io/apis/atomic-financial/atomic-verify-api/) — Verify provides instant income and employment verification by connecting to the consumer's payroll provider or employer. Lenders, landlords, and fintechs…
+- [Atomic PayLink API](https://apis.io/apis/atomic-financial/atomic-paylink-api/) — PayLink lets consumers update their card-on-file across merchants and subscription services. It is also the foundation for subscription discovery, bill…
+- [Atomic Tax API](https://apis.io/apis/atomic-financial/atomic-tax-api/) — Tax retrieves W-2s, 1099s, and other tax documents directly from the user's payroll provider, and unlocks tax-refund use cases such as early-deposit and…
+- [Atomic Authentication API](https://apis.io/apis/atomic-financial/atomic-authentication-api/) — Atomic's authentication layer powers user-permissioned access to third-party payroll, employer, and merchant systems. Three flavors are supported -…
+- [Atomic Webhooks API](https://apis.io/apis/atomic-financial/atomic-webhooks-api/) — Atomic delivers task, company, and continuous-access events to your endpoint using the CloudEvents binary content mode. Events include task-status-updated,…
+- [Atomic Transact SDK](https://apis.io/apis/atomic-financial/atomic-transact-sdk/) — The Transact SDK is the user-facing client that drives every Atomic flow — authentication, account selection, consent, and task execution. It ships as an…
 
-- **API key / secret** via `x-api-key` and `x-api-secret` headers for server-to-server calls.
-- **Access token** via `x-public-token` for Transact SDK initialization.
+### Published properties
 
-## SDKs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-All Transact SDKs live under the [atomicfi GitHub organization](https://github.com/atomicfi):
+#### GraphQL (1)
 
-- [atomic-transact-javascript](https://github.com/atomicfi/atomic-transact-javascript)
-- [atomic-transact-ios](https://github.com/atomicfi/atomic-transact-ios)
-- [atomic-transact-android-public](https://github.com/atomicfi/atomic-transact-android-public)
-- [atomic-transact-react-native](https://github.com/atomicfi/atomic-transact-react-native)
-- [atomic-transact-flutter](https://github.com/atomicfi/atomic-transact-flutter)
-- [atomic-transact-capacitor](https://github.com/atomicfi/atomic-transact-capacitor)
-- [helium](https://github.com/atomicfi/helium) — starter project for building a custom UI on Atomic's API.
+GraphQL schemas.
 
-## Resources
+- [Moved to /providers/atomic-financial/](https://apis.io/graphqls/atomic-financial/atomic-financial-graphql/)
 
-- Website: <https://atomic.financial/>
-- Documentation: <https://docs.atomicfi.com/>
-- API Reference: <https://docs.atomicfi.com/reference/api>
-- Console / SignUp: <https://console.atomicfi.com/>
-- GitHub: <https://github.com/atomicfi>
-- LinkedIn: <https://www.linkedin.com/company/atomic-fi/>
-- YouTube: <https://www.youtube.com/@atomic.financial>
-- Blog: <https://atomic.financial/insights/>
-- Help Center: <https://atomic.financial/help-center/>
+#### Security (1)
 
-## Maintainer
+Authentication, trust centre, and vulnerability disclosure.
 
-This profile is maintained by [Kin Lane](https://apievangelist.com), API Evangelist.
+- [Atomic Financial Domain Security](https://apis.io/security/atomic-financial/atomic-financial-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://atomic.financial/)
+- [Documentation](https://docs.atomicfi.com/)
+- [API reference](https://docs.atomicfi.com/reference/api)
+- [Support](https://atomic.financial/help-center/)
+- [Blog](https://atomic.financial/insights/)
+- [GitHub](https://github.com/atomicfi)
+
+## API Evangelist rating
+
+**Kin Score 18.5** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 62.5 |
+| Contract quality | 0.0 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 59.5 |
+| Access clarity | 0.0 |
+
+**Agent readiness 6.4** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | unknown |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 11.8** — Employment & Payroll
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/atomic-financial/](https://apis.io/providers/atomic-financial/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Atomic: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/atomic-financial/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
